@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "editorconfig.editorconfig",
+        "ms-python.python",
+        "kevinrose.vsc-python-indent",
+        "VisualStudioExptTeam.vscodeintellicode"
+    ]
+}
