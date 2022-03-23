@@ -1,3 +1,6 @@
+import os
+
+
 quadro = [
     [0, 0, 0],
     [0, 0, 0],
@@ -21,7 +24,7 @@ jogador_atual = 'X'
 
 
 def imprimir_quadro():
-    print('\n')
+    os.system('cls||clear')  # Limpa a tela
     for x, linha in enumerate(quadro):
         for y, coluna in enumerate(linha):
             if jogadores_simbolos[coluna] == '-':
