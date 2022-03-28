@@ -1,36 +1,53 @@
-import os
+import os  # Importar no topo do arquivo
 
+CODIGO_VAZIO = 0
+CODIGO_JOGADOR1 = 1
+CODIGO_JOGADOR2 = -1
+
+SIMBOLO_VAZIO = '-'
+SIMBOLO_JOGADOR1 = 'X'
+SIMBOLO_JOGADOR2 = 'O'
+
+JOGADOR1_GANHOU = 3
+JOGADOR2_GANHOU = -3
 
 quadro = [
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0],
+    [CODIGO_VAZIO, CODIGO_VAZIO, CODIGO_VAZIO],
+    [CODIGO_VAZIO, CODIGO_VAZIO, CODIGO_VAZIO],
+    [CODIGO_VAZIO, CODIGO_VAZIO, CODIGO_VAZIO],
 ]
-
-jogadores_simbolos = {
-    0: '-',  # Nenhum jogador
-    1: 'X',  # Jogador X
-    -1: 'O'  # Jogador Y
-}
-
-simbomolos_jogadores = {
-    'X': 1,
-    'O': -1
-}
 
 ganhador = None
 
-jogador_atual = 'X'
+jogador_atual = SIMBOLO_JOGADOR1
+
+
+def pegar_simbolo_jogador(jogador: int):
+    if jogador == CODIGO_JOGADOR1:
+        return SIMBOLO_JOGADOR1
+    elif jogador == CODIGO_JOGADOR2:
+        return SIMBOLO_JOGADOR2
+    else:
+        return SIMBOLO_VAZIO
+
+
+def pegar_codigo_jogador(simbolo: str):
+    if simbolo == SIMBOLO_JOGADOR1:
+        return CODIGO_JOGADOR1
+    elif simbolo == SIMBOLO_JOGADOR2:
+        return CODIGO_JOGADOR2
+    else:
+        return CODIGO_VAZIO
 
 
 def imprimir_quadro():
     os.system('cls||clear')  # Limpa a tela
-    for x, linha in enumerate(quadro):
-        for y, coluna in enumerate(linha):
-            if jogadores_simbolos[coluna] == '-':
-                print(f'{x}.{y}', end='\t')
+    for posicao_x, linha in enumerate(quadro):
+        for posicao_y, coluna in enumerate(linha):
+            if pegar_simbolo_jogador(coluna) == '-':
+                print(f'{posicao_x}.{posicao_y}', end='\t')
             else:
-                print(jogadores_simbolos[coluna], end='\t')
+                print(pegar_simbolo_jogador(coluna), end='\t')
         print('\n')
 
 
@@ -40,45 +57,45 @@ def verificar_ganhador():
         soma = 0
         for coluna in linha:
             soma += coluna
-        if soma == 3:
-            return 'X'
-        elif soma == -3:
-            return 'O'
+        if soma == JOGADOR1_GANHOU:
+            return SIMBOLO_JOGADOR1
+        elif soma == JOGADOR2_GANHOU:
+            return SIMBOLO_JOGADOR2
 
     # Verifica se algum jogador ganhou na vertical
     for coluna in range(3):
         soma = 0
         for linha in quadro:
             soma += linha[coluna]
-        if soma == 3:
-            return 'X'
-        elif soma == -3:
-            return 'O'
+        if soma == JOGADOR1_GANHOU:
+            return SIMBOLO_JOGADOR1
+        elif soma == JOGADOR2_GANHOU:
+            return SIMBOLO_JOGADOR2
 
     # Verifica se algum jogador ganhou na diagonal
     soma = 0
     for i in range(3):
         soma += quadro[i][i]
-    if soma == 3:
-        return 'X'
-    elif soma == -3:
-        return 'O'
+    if soma == JOGADOR1_GANHOU:
+        return SIMBOLO_JOGADOR1
+    elif soma == JOGADOR2_GANHOU:
+        return SIMBOLO_JOGADOR2
 
     # Verifica se algum jogador ganhou na diagonal inversa
     soma = 0
     for i in range(3):
         soma += quadro[i][2 - i]
-    if soma == 3:
-        return 'X'
-    elif soma == -3:
-        return 'O'
+    if soma == JOGADOR1_GANHOU:
+        return SIMBOLO_JOGADOR1
+    elif soma == JOGADOR2_GANHOU:
+        return SIMBOLO_JOGADOR2
 
     # Verifica se deu empate
     empate = 0
     for linha in quadro:
         if 0 not in linha:
             empate += 1
-    if empate == 3:
+    if empate == JOGADOR1_GANHOU:
         return 0
 
     return None
@@ -92,15 +109,17 @@ while ganhador is None:
     x, y = jogada.split('.')
     x = int(x)
     y = int(y)
-    quadro[x][y] = simbomolos_jogadores[jogador_atual]
-    if jogador_atual == 'X':
-        jogador_atual = 'O'
+    quadro[x][y] = pegar_codigo_jogador(jogador_atual)
+    if jogador_atual == SIMBOLO_JOGADOR1:
+        jogador_atual = SIMBOLO_JOGADOR2
     else:
-        jogador_atual = 'X'
+        jogador_atual = SIMBOLO_JOGADOR1
     ganhador = verificar_ganhador()
 
+imprimir_quadro()
+
 print('\n')
-if ganhador != 0:
+if ganhador != CODIGO_VAZIO:
     print(f'O jogador {ganhador} ganhou!')
 else:
     print('Deu velha!')

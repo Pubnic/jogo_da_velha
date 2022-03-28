@@ -7,3 +7,8 @@ Jogo da velha desenvolvido para o Workshop no palco WS Growth na Campus Party BS
 
 ## Como rodar
 `python3 jogo_da_velha.py`
+
+## Como rodar 2
+- Acesse o site https://replit.com/languages/python3
+- Copie e cole o código
+- Be happy
